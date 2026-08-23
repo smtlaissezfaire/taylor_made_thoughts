@@ -1,0 +1,550 @@
+:root {
+  --paper: #f4f0e8;
+  --paper-raised: #faf7f1;
+  --ink: #1c1916;
+  --ink-muted: #5e5852;
+  --rule: #d8d0c4;
+  --accent: #6b2e22;
+  --accent-hover: #4d2018;
+  --focus: #1c1916;
+  --measure: 42rem;
+  --page-pad: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Newsreader", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  font-optical-sizing: auto;
+  font-size: 1.125rem;
+  line-height: 1.65;
+  font-weight: 400;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -3rem;
+  z-index: 10;
+  padding: 0.5rem 0.8rem;
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+.site-header,
+main,
+.site-footer {
+  width: min(var(--measure), calc(100% - var(--page-pad) * 2));
+  margin-inline: auto;
+}
+
+.site-header {
+  padding: clamp(3.25rem, 10vw, 6.5rem) 0 clamp(2.5rem, 6vw, 4rem);
+}
+
+.site-header.compact {
+  padding: clamp(1.75rem, 5vw, 2.75rem) 0 1.75rem;
+}
+
+.site-wordmark {
+  margin: 0;
+  font-size: clamp(1.55rem, 4vw, 2rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.site-wordmark a,
+.eyebrow a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-wordmark a:hover,
+.eyebrow a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+.eyebrow {
+  margin: 0 0 0.85rem;
+  color: var(--ink-muted);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+h1,
+h2 {
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.25rem, 6vw, 3.35rem);
+}
+
+h2 {
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.45rem, 3vw, 1.75rem);
+}
+
+.tagline {
+  max-width: 28rem;
+  margin: 1rem 0 0;
+  color: var(--ink-muted);
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.platform-nav {
+  margin-top: 1.75rem;
+}
+
+.platform-nav ul,
+.site-footer ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.15rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.platform-nav li,
+.site-footer li {
+  display: flex;
+  align-items: center;
+}
+
+.platform-nav li:not(:last-child)::after,
+.site-footer li:not(:last-child)::after {
+  content: "·";
+  margin: 0 0.7rem;
+  color: var(--rule);
+}
+
+.platform-nav a,
+.platform-nav span,
+.site-footer a {
+  display: inline-flex;
+  align-items: center;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
+
+.platform-icon {
+  display: inline-block;
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-right: 0.35rem;
+  color: inherit;
+  background-color: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+  transition: background-color 0.16s ease;
+}
+
+.platform-icon-spotify {
+  --icon: url("assets/icons/spotify.svg");
+}
+
+.platform-icon-apple {
+  --icon: url("assets/icons/apple.svg");
+}
+
+.platform-icon-amazon {
+  --icon: url("assets/icons/amazon.svg");
+  width: 1.15rem;
+  height: 0.7rem;
+}
+
+.platform-icon-youtube {
+  --icon: url("assets/icons/youtube.svg");
+}
+
+.platform-icon-rss {
+  --icon: url("assets/icons/rss.svg");
+}
+
+.platform-nav a,
+.site-footer a {
+  color: var(--ink);
+  border-bottom: 1px solid transparent;
+  transition: color 0.16s ease, border-color 0.16s ease;
+}
+
+.platform-nav a:hover,
+.site-footer a:hover {
+  border-bottom-color: currentColor;
+}
+
+.platform-nav a:hover:has(.platform-icon-spotify),
+.platform-nav a:focus-visible:has(.platform-icon-spotify),
+.site-footer a:hover:has(.platform-icon-spotify),
+.site-footer a:focus-visible:has(.platform-icon-spotify) {
+  color: #1db954;
+}
+
+.platform-nav a:hover:has(.platform-icon-apple),
+.platform-nav a:focus-visible:has(.platform-icon-apple),
+.site-footer a:hover:has(.platform-icon-apple),
+.site-footer a:focus-visible:has(.platform-icon-apple) {
+  color: #8724e0;
+}
+
+.platform-nav a:hover:has(.platform-icon-amazon),
+.platform-nav a:focus-visible:has(.platform-icon-amazon),
+.site-footer a:hover:has(.platform-icon-amazon),
+.site-footer a:focus-visible:has(.platform-icon-amazon) {
+  color: #00a8e1;
+}
+
+.platform-nav a:hover:has(.platform-icon-youtube),
+.platform-nav a:focus-visible:has(.platform-icon-youtube),
+.site-footer a:hover:has(.platform-icon-youtube),
+.site-footer a:focus-visible:has(.platform-icon-youtube) {
+  color: #ff0000;
+}
+
+.platform-nav a:hover:has(.platform-icon-rss),
+.platform-nav a:focus-visible:has(.platform-icon-rss),
+.site-footer a:hover:has(.platform-icon-rss),
+.site-footer a:focus-visible:has(.platform-icon-rss) {
+  color: #f26522;
+}
+
+.platform-nav span:not(.platform-icon),
+.site-footer span:not(#copyright):not(.platform-icon) {
+  color: var(--ink-muted);
+}
+
+.platform-nav a .platform-icon,
+.site-footer a .platform-icon {
+  color: inherit;
+}
+
+main {
+  padding-bottom: clamp(3rem, 8vw, 5.5rem);
+}
+
+.episodes,
+.about {
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+
+.about {
+  margin-top: 3rem;
+}
+
+.status {
+  color: var(--ink-muted);
+  font-size: 1.05rem;
+}
+
+.status[hidden] {
+  display: none;
+}
+
+.episode-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.episode {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: 1.15rem 1.25rem;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.episode:first-child {
+  padding-top: 0.15rem;
+}
+
+.episode-art {
+  width: 5.5rem;
+  height: 5.5rem;
+  overflow: hidden;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+}
+
+.episode-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.episode-body {
+  min-width: 0;
+}
+
+.episode-title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.episode-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.episode-title a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+.episode-date {
+  margin: 0.35rem 0 0;
+  color: var(--ink-muted);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+}
+
+.episode-description {
+  margin: 0.55rem 0 0;
+  color: var(--ink);
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+.episode-listen {
+  display: inline-block;
+  margin-top: 0.7rem;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
+
+.episode-listen:hover {
+  text-decoration: underline;
+}
+
+.archive-link {
+  margin: 1.5rem 0 0;
+}
+
+.archive-link a {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.archive-link a:hover {
+  text-decoration: underline;
+}
+
+.page-inner h1 {
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.7rem, 4vw, 2.15rem);
+}
+
+.episode-page {
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+
+.episode-hero-art {
+  width: min(100%, 11rem);
+  margin: 1.5rem 0 0;
+  overflow: hidden;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+}
+
+.episode-hero-art img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.episode-page .episode-date {
+  margin-top: 0.7rem;
+}
+
+.episode-copy {
+  margin-top: 1.5rem;
+}
+
+.episode-copy p,
+.episode-copy ol,
+.episode-copy ul {
+  margin: 0 0 1rem;
+}
+
+.episode-copy p:last-child,
+.episode-copy ol:last-child,
+.episode-copy ul:last-child {
+  margin-bottom: 0;
+}
+
+.episode-copy ol,
+.episode-copy ul {
+  padding-left: 1.35rem;
+}
+
+.episode-copy li {
+  margin: 0.35rem 0;
+}
+
+.episode-copy li::marker {
+  color: var(--ink-muted);
+}
+
+.episode-copy strong,
+.episode-copy b {
+  font-weight: 600;
+}
+
+.episode-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.25rem;
+  margin-top: 1.75rem;
+}
+
+.episode-listen-nav {
+  margin-top: 1.75rem;
+}
+
+.listen-label {
+  margin: 0 0 0.65rem;
+  color: var(--ink-muted);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.episode-nav {
+  margin-top: 2.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.82rem;
+}
+
+.episode-nav a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.episode-nav a:hover {
+  text-decoration: underline;
+}
+
+.episode-nav span {
+  margin: 0 0.65rem;
+  color: var(--rule);
+}
+
+.about p {
+  margin: 0;
+  color: var(--ink);
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding: 1.4rem 0 2.5rem;
+  border-top: 1px solid var(--rule);
+  color: var(--ink-muted);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.82rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+@media (max-width: 540px) {
+  body {
+    font-size: 1.0625rem;
+  }
+
+  .episode {
+    grid-template-columns: 4.25rem minmax(0, 1fr);
+    gap: 0.9rem 1rem;
+    padding: 1.2rem 0;
+  }
+
+  .episode-art {
+    width: 4.25rem;
+    height: 4.25rem;
+  }
+
+  .episode-title {
+    font-size: 1.08rem;
+  }
+
+  .site-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
