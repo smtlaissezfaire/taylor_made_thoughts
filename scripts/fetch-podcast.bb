@@ -149,18 +149,30 @@
                 (linkify part))))
        (apply str)))
 
+(defn fold-key [value]
+  ;; Babashka does not ship java.text.Normalizer; ASCII folding is enough here.
+  (-> (str (or value ""))
+      str/lower-case
+      (str/replace #"[àáâãäåāăą]" "a")
+      (str/replace #"[èéêëēĕėęě]" "e")
+      (str/replace #"[ìíîïĩīĭįı]" "i")
+      (str/replace #"[òóôõöōŏő]" "o")
+      (str/replace #"[ùúûüũūŭůűų]" "u")
+      (str/replace #"[ýÿŷ]" "y")
+      (str/replace #"[çćĉċč]" "c")
+      (str/replace #"[ñńņň]" "n")
+      (str/replace #"[ß]" "ss")
+      (str/replace #"[æ]" "ae")
+      (str/replace #"[œ]" "oe")))
+
 (defn slugify [value]
-  (let [normalized (java.text.Normalizer/normalize (str (or value ""))
-                                                   java.text.Normalizer$Form/NFD)]
-    (or (not-empty
-         (-> normalized
-             str/lower-case
-             (str/replace #"[\u0300-\u036f]" "")
-             (str/replace #"[\"'“”‘’]" "")
-             (str/replace #"[^a-z0-9]+" "-")
-             (str/replace #"^-+|-+$" "")
-             (as-> s (subs s 0 (min 72 (count s))))))
-        "episode")))
+  (or (not-empty
+       (-> (fold-key value)
+           (str/replace #"[\"'“”‘’]" "")
+           (str/replace #"[^a-z0-9]+" "-")
+           (str/replace #"^-+|-+$" "")
+           (as-> s (subs s 0 (min 72 (count s))))))
+      "episode"))
 
 (defn unique-slug [base used]
   (loop [slug base n 2]
@@ -208,10 +220,7 @@
     {:iso "" :label ""}))
 
 (defn normalize-title [value]
-  (-> (java.text.Normalizer/normalize (str (or value ""))
-                                      java.text.Normalizer$Form/NFD)
-      str/lower-case
-      (str/replace #"[\u0300-\u036f]" "")
+  (-> (fold-key value)
       (str/replace #"&" " and ")
       (str/replace #"[^a-z0-9]+" " ")
       str/trim))
