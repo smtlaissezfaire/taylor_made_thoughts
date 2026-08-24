@@ -21,13 +21,13 @@ jobs:
         with:
           persist-credentials: true
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Babashka
+        uses: DeLaGuardo/setup-clojure@13.4
         with:
-          node-version: "20"
+          bb: 1.12.196
 
-      - name: Fetch RSS feed and generate episodes.json
-        run: node scripts/fetch-podcast.js
+      - name: Fetch RSS feed and generate episodes
+        run: bb scripts/fetch-podcast.bb
 
       - name: Commit updated episodes
         run: |

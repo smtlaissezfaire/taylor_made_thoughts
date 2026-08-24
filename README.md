@@ -144,10 +144,11 @@ http://localhost:8080
 
 Do not open `index.html` directly as a `file://` page. The browser will block `episodes.json`.
 
-To generate episodes on your machine after adding the RSS URL:
+To generate episodes on your machine after adding the RSS URL, install [Babashka](https://babashka.org) and run the importer:
 
 ```bash
-node scripts/fetch-podcast.js
+brew install borkdude/brew/babashka
+bb scripts/fetch-podcast.bb
 ```
 
 Then refresh the local site. You should see up to 15 recent episodes, newest first.
@@ -350,7 +351,9 @@ GitHub Pages rebuilds the site
 The homepage shows the latest 5 episodes
 ```
 
-The importer lives at `scripts/fetch-podcast.js`. It:
+The importer lives at `scripts/fetch-podcast.bb` and is written in [Babashka](https://babashka.org) (a small Clojure scripting runtime). Install it with `brew install borkdude/brew/babashka`, then run `bb scripts/fetch-podcast.bb`.
+
+It:
 
 - reads `rssFeedUrl` from `config.js`
 - keeps the existing `episodes.json` if the feed cannot be reached
@@ -387,7 +390,7 @@ If the feed is empty or not configured yet, the homepage shows a short empty sta
     favicon-32.png
     apple-touch-icon.png
   scripts/
-    fetch-podcast.js
+    fetch-podcast.bb
   .github/
     workflows/
       update-podcast.yml

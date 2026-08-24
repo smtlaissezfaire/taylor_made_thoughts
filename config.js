@@ -8,7 +8,7 @@
  *
  * Used by:
  *   - the website (script.js)
- *   - the RSS importer (scripts/fetch-podcast.js)
+ *   - the RSS importer (scripts/fetch-podcast.bb)
  * =============================================================================
  */
 
