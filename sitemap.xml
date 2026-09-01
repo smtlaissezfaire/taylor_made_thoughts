@@ -11,6 +11,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://TaylorMadeThoughts.com/episodes/12-introducing-opaque-a-snail-mail-subscription-for-better-decisions.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://TaylorMadeThoughts.com/episodes/11-geometry-for-staying-cool-calm-3-rules-for-navigating-life-by-dan-sulliv.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
