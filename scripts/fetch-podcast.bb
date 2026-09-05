@@ -100,7 +100,7 @@
       (str/replace "\"" "&quot;")))
 
 (defn sanitize-description-html [value]
-  (let [allowed #{"p" "br" "ol" "ul" "li" "strong" "b" "em" "i" "a"}
+  (let [allowed #{"p" "br" "ol" "ul" "li" "strong" "b" "em" "i" "u" "a" "hr"}
         html (-> (decode-xml-entities (or value ""))
                  (str/replace #"(?is)<script[\s\S]*?</script>" "")
                  (str/replace #"(?is)<style[\s\S]*?</style>" ""))]
@@ -111,6 +111,7 @@
                          (cond
                            (not (allowed name)) " "
                            (= name "br") "<br>"
+                           (= name "hr") "<hr>"
                            (str/starts-with? full "</") (str "</" name ">")
                            (= name "a")
                            (let [href (first-match (or attrs "") #"(?i)href\s*=\s*[\"']([^\"']+)[\"']")]
@@ -141,13 +142,41 @@
                  (.end matcher)))
         (str html (escape-html (subs source last-idx)))))))
 
+(defn html-parts [html]
+  (let [source (str (or html ""))
+        matcher (re-matcher #"<[^>]+>" source)]
+    (loop [parts [] last-idx 0]
+      (if (.find matcher)
+        (let [start (.start matcher)
+              tag (.group matcher)]
+          (recur (cond-> parts
+                   (> start last-idx) (conj (subs source last-idx start))
+                   true (conj tag))
+                 (.end matcher)))
+        (cond-> parts
+          (< last-idx (count source)) (conj (subs source last-idx)))))))
+
 (defn linkify-html [html]
-  (->> (str/split (str (or html "")) #"(<[^>]+>)")
+  ;; clojure.string/split drops delimiters even with a capturing group,
+  ;; unlike JavaScript String#split. Walk tags so markup is kept.
+  (->> (html-parts html)
        (map (fn [part]
               (if (str/starts-with? (or part "") "<")
                 part
                 (linkify part))))
        (apply str)))
+
+(defn prepare-body-html [raw]
+  (let [html (-> (sanitize-description-html raw)
+                 (str/replace #"(?i)<p>(?:\s*<(?:strong|b|em|i)>\s*)?-{3,}(?:\s*</(?:strong|b|em|i)>\s*)?</p>"
+                              "<hr>")
+                 linkify-html)]
+    (if (re-find #"(?i)<(p|br|ul|ol|hr)\b" html)
+      html
+      (->> (description-paragraphs raw)
+           (remove str/blank?)
+           (map #(str "<p>" (linkify %) "</p>"))
+           (str/join "\n")))))
 
 (defn fold-key [value]
   ;; Babashka does not ship java.text.Normalizer; ASCII folding is enough here.
@@ -264,7 +293,7 @@
      "description" (truncate (str/replace full #"\n+" " ") (:description-max-length config))
      "fullDescription" full
      "paragraphs" (vec paragraphs)
-     "bodyHtml" (linkify-html (sanitize-description-html raw))
+     "bodyHtml" (prepare-body-html raw)
      "url" (if (usable-url? url) (str/trim url) "")
      "artwork" (if (usable-url? artwork) (str/trim artwork) "")
      "links" {"spotify" (if (usable-url? url) (str/trim url) "")

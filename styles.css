@@ -429,8 +429,15 @@ main {
 
 .episode-copy p:last-child,
 .episode-copy ol:last-child,
-.episode-copy ul:last-child {
+.episode-copy ul:last-child,
+.episode-copy hr:last-child {
   margin-bottom: 0;
+}
+
+.episode-copy hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 1.35rem 0;
 }
 
 .episode-copy ol,
