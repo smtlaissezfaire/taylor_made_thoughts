@@ -437,6 +437,9 @@
         artwork (or (get episode "artwork")
                     (get payload "podcastArtwork")
                     (str site-url "/assets/podcast-artwork.jpg"))
+        ;; Host the card image on this site. Spotify/CloudFront artwork is often
+        ;; too large and served as image/jpg, which X/Twitter will not preview.
+        social-image (str site-url "/assets/og-image.jpg")
         copy-html (or (not-empty (get episode "bodyHtml"))
                       (->> (or (seq (get episode "paragraphs"))
                                [(or (get episode "fullDescription") (get episode "description") "")])
@@ -464,12 +467,17 @@
          "    <meta property=\"og:title\" content=\"" (escape-html title) "\" />\n"
          "    <meta property=\"og:description\" content=\"" (escape-html description) "\" />\n"
          "    <meta property=\"og:url\" content=\"" (escape-html page-url) "\" />\n"
-         "    <meta property=\"og:image\" content=\"" (escape-html artwork) "\" />\n"
+         "    <meta property=\"og:image\" content=\"" (escape-html social-image) "\" />\n"
+         "    <meta property=\"og:image:width\" content=\"1200\" />\n"
+         "    <meta property=\"og:image:height\" content=\"630\" />\n"
+         "    <meta property=\"og:image:type\" content=\"image/jpeg\" />\n"
+         "    <meta property=\"og:image:alt\" content=\"Taylor Made Thoughts\" />\n"
          "    <meta property=\"og:locale\" content=\"en_US\" />\n\n"
          "    <meta name=\"twitter:card\" content=\"summary_large_image\" />\n"
          "    <meta name=\"twitter:title\" content=\"" (escape-html title) "\" />\n"
          "    <meta name=\"twitter:description\" content=\"" (escape-html description) "\" />\n"
-         "    <meta name=\"twitter:image\" content=\"" (escape-html artwork) "\" />\n\n"
+         "    <meta name=\"twitter:image\" content=\"" (escape-html social-image) "\" />\n"
+         "    <meta name=\"twitter:image:alt\" content=\"Taylor Made Thoughts\" />\n\n"
          "    <meta name=\"theme-color\" content=\"#f4f0e8\" />\n"
          "    <link rel=\"icon\" href=\"../assets/favicon.ico\" sizes=\"any\" />\n"
          "    <link rel=\"icon\" href=\"../assets/favicon.svg\" type=\"image/svg+xml\" />\n"
